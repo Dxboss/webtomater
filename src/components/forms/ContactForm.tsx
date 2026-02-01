@@ -68,6 +68,39 @@ export function ContactForm() {
     )
   }
 
+  const getBudgetOptions = () => {
+    switch (currency) {
+      case 'NGN':
+        return [
+          { value: "< ₦5M", label: "Less than ₦5M" },
+          { value: "₦5M - ₦10M", label: "₦5M - ₦10M" },
+          { value: "₦10M - ₦25M", label: "₦10M - ₦25M" },
+          { value: "₦25M+", label: "₦25M+" },
+        ]
+      case 'GBP':
+        return [
+          { value: "< £4k", label: "Less than £4k" },
+          { value: "£4k - £8k", label: "£4k - £8k" },
+          { value: "£8k - £20k", label: "£8k - £20k" },
+          { value: "£20k+", label: "£20k+" },
+        ]
+      case 'EUR':
+        return [
+          { value: "< €5k", label: "Less than €5k" },
+          { value: "€5k - €10k", label: "€5k - €10k" },
+          { value: "€10k - €25k", label: "€10k - €25k" },
+          { value: "€25k+", label: "€25k+" },
+        ]
+      default: // USD
+        return [
+          { value: "< $5k", label: "Less than $5k" },
+          { value: "$5k - $10k", label: "$5k - $10k" },
+          { value: "$10k - $25k", label: "$10k - $25k" },
+          { value: "$25k+", label: "$25k+" },
+        ]
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

@@ -4,8 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Slider } from "@/components/ui/Slider"
 import { DollarSign, Clock, TrendingUp, Banknote } from "lucide-react"
-
-type Currency = 'USD' | 'NGN' | 'GBP' | 'EUR'
+import { useUserLocation, type Currency } from "@/hooks/useUserLocation"
 
 const CURRENCIES: Record<Currency, { symbol: string, rateMin: number, rateMax: number, rateStep: number, defaultRate: number }> = {
   USD: { symbol: '$', rateMin: 15, rateMax: 500, rateStep: 5, defaultRate: 50 },
@@ -15,25 +14,19 @@ const CURRENCIES: Record<Currency, { symbol: string, rateMin: number, rateMax: n
 }
 
 export function ROICalculator() {
+  const { currency: detectedCurrency, loading } = useUserLocation()
   const [currency, setCurrency] = useState<Currency>('USD')
   const [hoursPerWeek, setHoursPerWeek] = useState(10)
   const [hourlyRate, setHourlyRate] = useState(50)
   const [employeeCount, setEmployeeCount] = useState(1)
 
-  // Auto-detect currency on mount
+  // Update currency when detected
   useEffect(() => {
-    const locale = navigator.language
-    if (locale.includes('NG')) {
-      setCurrency('NGN')
-      setHourlyRate(CURRENCIES.NGN.defaultRate)
-    } else if (locale.includes('GB')) {
-      setCurrency('GBP')
-      setHourlyRate(CURRENCIES.GBP.defaultRate)
-    } else if (locale.includes('EU') || locale.includes('DE') || locale.includes('FR')) {
-      setCurrency('EUR')
-      setHourlyRate(CURRENCIES.EUR.defaultRate)
+    if (!loading && detectedCurrency) {
+      setCurrency(detectedCurrency)
+      setHourlyRate(CURRENCIES[detectedCurrency].defaultRate)
     }
-  }, [])
+  }, [detectedCurrency, loading])
 
   const handleCurrencyChange = (newCurrency: Currency) => {
     setCurrency(newCurrency)
