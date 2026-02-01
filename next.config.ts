@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         hostname: 'zotytiupdmdakfxeigam.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'evolvingwithcheta.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'whitefieldapartments.com',
+      },
     ],
   },
 };
