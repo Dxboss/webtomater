@@ -14,6 +14,7 @@ export const projects: Project[] = [
     role: "Development",
     summary: "A comprehensive platform for tech training and education.",
     url: "https://eunantech.com",
+    image: "/images/case-studies/eunan-tech.png",
   },
   {
     slug: "sms-wine-nine",
@@ -21,6 +22,7 @@ export const projects: Project[] = [
     role: "Design & Development",
     summary: "An e-commerce solution for wine distribution.",
     url: "https://smswinenine.com",
+    image: "/images/case-studies/sms-wine-nine.png",
   },
   {
     slug: "tridah-media",
@@ -28,6 +30,7 @@ export const projects: Project[] = [
     role: "Full Stack",
     summary: "Digital agency portfolio and service management.",
     url: "https://tridahmedia.com",
+    image: "/images/case-studies/tridah-media.png",
   },
   {
     slug: "evolving-with-cheta",
@@ -42,5 +45,6 @@ export const projects: Project[] = [
     role: "Real Estate Development",
     summary: "Premium real estate showcase and booking platform.",
     url: "https://whitefieldapartments.com",
+    image: "/images/case-studies/whitefield.png",
   },
 ]

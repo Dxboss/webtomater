@@ -48,12 +48,7 @@ export default async function ProjectsPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {await Promise.all(projects.map(async (p) => {
               const og = p.url ? await fetchOgImage(p.url) : null
-              const overrides: Record<string, string> = {
-                "eunan-tech-training-institute": "/images/case-studies/eunan-tech.png",
-                "sms-wine-nine": "/images/case-studies/sms-wine-nine.png",
-                "tridah-media": "/images/case-studies/tridah-media.png",
-              }
-              const primary = overrides[p.slug] ?? p.image
+              const primary = p.image
               return (
                 <div key={p.slug} className="rounded-lg border bg-white shadow-sm flex flex-col overflow-hidden">
                   <div className="h-40 border-b border-border bg-secondary/40">
