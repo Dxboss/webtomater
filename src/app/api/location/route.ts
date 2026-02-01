@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   // Get country from Vercel header, default to 'US'
   const country = request.headers.get('x-vercel-ip-country') || 'US';
