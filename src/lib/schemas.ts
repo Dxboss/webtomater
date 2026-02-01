@@ -8,6 +8,7 @@ export const contactFormSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
   budget: z.string().optional(),
   timeline: z.string().optional(),
+  services: z.array(z.string()).optional(),
 })
 
 export type ContactFormData = z.infer<typeof contactFormSchema>

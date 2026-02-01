@@ -8,8 +8,16 @@ import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Textarea } from "@/components/ui/Textarea"
 import { Label } from "@/components/ui/Label"
+import { Checkbox } from "@/components/ui/Checkbox"
 import { cn } from "@/lib/utils"
-import { useUserLocation } from "@/hooks/useUserLocation"
+import { useUserLocation } from "../../hooks/useUserLocation"
+
+const SERVICES = [
+  "Web Development",
+  "Management Systems",
+  "Business Automation",
+  "Revenue Systems"
+]
 
 export function ContactForm() {
   const { currency } = useUserLocation()

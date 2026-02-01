@@ -73,6 +73,7 @@ export async function POST(request: Request) {
               <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
               <p><strong>Budget:</strong> ${budget}</p>
               <p><strong>Timeline:</strong> ${timeline}</p>
+              <p><strong>Services:</strong> ${services?.join(", ") || 'None selected'}</p>
               <hr />
               <h3>Message:</h3>
               <p>${message.replace(/\n/g, '<br>')}</p>
