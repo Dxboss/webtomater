@@ -157,7 +157,10 @@ export default function PortalLayout({
         <div className="p-4 border-t border-gray-100">
           <div className="flex items-center gap-3 px-4 py-2 mb-2">
             <User className="w-5 h-5 text-gray-400" />
-            <span className="text-sm text-gray-700 truncate max-w-[150px]">{user?.email}</span>
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-medium text-gray-900 truncate">{user?.user_metadata?.full_name || 'User'}</span>
+              <span className="text-xs text-gray-500 truncate">{user?.email}</span>
+            </div>
           </div>
           {isAdmin && (
             <Link 
