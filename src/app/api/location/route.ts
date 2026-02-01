@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   // Get country from Vercel header
   let country = request.headers.get('x-vercel-ip-country');
+  let source = 'vercel';
   
   // If no Vercel header (local dev), try external service
   if (!country) {
@@ -15,6 +16,7 @@ export async function GET(request: Request) {
       if (ipRes.ok) {
         const ipData = await ipRes.json();
         country = ipData.countryCode;
+        source = 'external';
       }
     } catch (e) {
       console.error('External IP lookup failed:', e);
@@ -22,7 +24,10 @@ export async function GET(request: Request) {
   }
 
   // Fallback to US if all else fails
-  country = country || 'US';
+  if (!country) {
+    country = 'US';
+    source = 'default';
+  }
   
   let currency = 'USD';
   let symbol = '$';
@@ -39,5 +44,5 @@ export async function GET(request: Request) {
     symbol = '€';
   }
 
-  return NextResponse.json({ country, currency, symbol });
+  return NextResponse.json({ country, currency, symbol, source });
 }
