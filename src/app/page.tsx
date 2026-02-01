@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col relative">
-      <div className="absolute inset-0 bg-grid-pattern pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-grid-pattern pointer-events-none -z-10 opacity-30" />
       {/* Hero Section - Brutalist/Swiss Style */}
       <Section className="relative min-h-[90vh] flex flex-col justify-center border-b border-border overflow-hidden pt-0 pb-0">
         <FluidBackground />
