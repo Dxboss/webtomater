@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FileText, Settings, LogOut, User, Menu, X } from "lucide-react"
+import { LayoutDashboard, Briefcase, FileText, Settings, LogOut, User, Menu, X, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 
 export default function PortalLayout({

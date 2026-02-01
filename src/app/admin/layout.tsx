@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
-import { LayoutDashboard, FileText, Settings, LogOut, Menu, X, Briefcase, Users, BarChart3, Mail } from "lucide-react"
+import { LayoutDashboard, FileText, Settings, LogOut, Menu, X, Briefcase, Users, BarChart3, Mail, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 
 export default function AdminLayout({
@@ -63,7 +63,13 @@ export default function AdminLayout({
     return <>{children}</>
   }
 
-  if (loading) return null
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    )
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
