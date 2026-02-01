@@ -21,8 +21,8 @@ const navigation = {
   legal: [
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
-    { name: "Client Portal", href: "/portal" },
-    { name: "Admin Login", href: "/admin" },
+    { name: "Client Portal", href: "/portal/login" },
+    { name: "Admin Login", href: "/admin/login" },
   ],
 }
 
