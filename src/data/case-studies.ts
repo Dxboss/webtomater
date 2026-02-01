@@ -9,6 +9,7 @@ export type CaseStudy = {
   results: { label: string; value: string }[]
   stack: string[]
   useCaseAnchor: "sales" | "operations"
+  image?: string
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -17,6 +18,7 @@ export const caseStudies: CaseStudy[] = [
     title: "Whitefield Luxury Apartments",
     client: "Whitefield",
     industry: "Real Estate",
+    image: "/images/case-studies/whitefield.png",
     summary: "A premium digital presence that showcases luxury living spaces and streamlines tenant inquiries through an immersive user experience.",
     challenge: "High-end properties require high-end digital representation. The client needed a way to showcase amenities and floor plans effectively while capturing qualified leads from potential tenants.",
     solution: "We built a high-performance Next.js application featuring immersive image galleries, real-time availability checking, and a streamlined inquiry process integrated directly with their CRM.",
@@ -33,6 +35,7 @@ export const caseStudies: CaseStudy[] = [
     title: "Eunan Tech Training Institute",
     client: "Eunan Tech",
     industry: "EdTech",
+    image: "/images/case-studies/eunan-tech.png",
     summary: "A comprehensive educational platform streamlining student enrollment, course management, and resource distribution for a growing tech institute.",
     challenge: "Managing student registrations, course schedules, and learning materials manually was becoming unscalable. They needed a centralized system to handle the entire student lifecycle.",
     solution: "Developed a custom portal handling student registration, course progression tracking, and automated notifications. The system reduces administrative overhead and improves the student experience.",
@@ -49,6 +52,7 @@ export const caseStudies: CaseStudy[] = [
     title: "SMS Wine Nine",
     client: "SMS Wine Nine",
     industry: "E-commerce",
+    image: "/images/case-studies/sms-wine-nine.png",
     summary: "A specialized e-commerce solution designed to simplify wine distribution and enhance the purchasing experience for connoisseurs.",
     challenge: "The client needed a robust platform to manage complex inventory variants and provide a seamless checkout experience that builds trust with premium customers.",
     solution: "Implemented a custom e-commerce storefront with advanced filtering, secure payment processing, and inventory synchronization to ensure accurate stock levels.",

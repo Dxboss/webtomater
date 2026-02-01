@@ -3,9 +3,6 @@ import { Container } from "@/components/ui/Container"
 import Link from "next/link"
 import { projects } from "@/data/projects"
 import { CardImage } from "@/components/ui/CardImage"
-import eunanTech from "./eunan-tech.png"
-import smsWineNine from "./sms-wine-nine.png"
-import tridahMedia from "./tridah-media.png"
 
 async function fetchOgImage(url: string): Promise<string | null> {
   try {
@@ -52,9 +49,9 @@ export default async function ProjectsPage() {
             {await Promise.all(projects.map(async (p) => {
               const og = p.url ? await fetchOgImage(p.url) : null
               const overrides: Record<string, string> = {
-                "eunan-tech-training-institute": (eunanTech as any).src,
-                "sms-wine-nine": (smsWineNine as any).src,
-                "tridah-media": (tridahMedia as any).src,
+                "eunan-tech-training-institute": "/images/case-studies/eunan-tech.png",
+                "sms-wine-nine": "/images/case-studies/sms-wine-nine.png",
+                "tridah-media": "/images/case-studies/tridah-media.png",
               }
               const primary = overrides[p.slug] ?? p.image
               return (
