@@ -13,51 +13,51 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "techstartup-scale-up",
-    title: "TechStartup Scale-up",
-    client: "TechStartup Inc.",
-    industry: "B2B SaaS",
-    summary: "A complete go-to-market automation that qualified leads, synced enriched data to CRM and triggered timely follow-ups. Demo bookings rose while manual data work dropped to near zero.",
-    challenge: "Marketing generated leads from forms, webinars and chat, but data quality was inconsistent. Sales spent hours cleaning records and routing them manually, causing slow responses and missed opportunities.",
-    solution: "Unified intake with enrichment, scoring and routing to CRM. Added automated sequences for SDR follow-ups and owner reassignment rules. Built dashboards to monitor conversion and response time.",
+    slug: "whitefield-luxury-apartments",
+    title: "Whitefield Luxury Apartments",
+    client: "Whitefield",
+    industry: "Real Estate",
+    summary: "A premium digital presence that showcases luxury living spaces and streamlines tenant inquiries through an immersive user experience.",
+    challenge: "High-end properties require high-end digital representation. The client needed a way to showcase amenities and floor plans effectively while capturing qualified leads from potential tenants.",
+    solution: "We built a high-performance Next.js application featuring immersive image galleries, real-time availability checking, and a streamlined inquiry process integrated directly with their CRM.",
     results: [
-      { label: "Demo bookings", value: "+38%" },
-      { label: "Manual hours saved/week", value: "15" },
-      { label: "Lead response time", value: "-63%" }
+      { label: "Inquiry Rate", value: "+25%" },
+      { label: "Page Load Time", value: "0.8s" },
+      { label: "User Engagement", value: "High" }
     ],
-    stack: ["Next.js", "Supabase", "Zapier", "HubSpot"],
+    stack: ["Next.js", "Tailwind CSS", "Framer Motion", "Supabase"],
     useCaseAnchor: "sales"
   },
   {
-    slug: "agency-operations",
-    title: "Agency Operations",
-    client: "Studio Collective",
-    industry: "Creative Services",
-    summary: "A standardized onboarding flow created projects, folders, tasks and contracts automatically across tools. Time-to-kickoff shortened and asset accuracy improved dramatically.",
-    challenge: "Each project manager followed a slightly different process. Assets went missing, tasks were duplicated and kickoff dates slipped due to manual setup time.",
-    solution: "A single intake that drives multi-system automation: project creation, folder scaffolding, task templates and contract generation/signing. Added audit logs and status dashboards.",
+    slug: "eunan-tech-training-institute",
+    title: "Eunan Tech Training Institute",
+    client: "Eunan Tech",
+    industry: "EdTech",
+    summary: "A comprehensive educational platform streamlining student enrollment, course management, and resource distribution for a growing tech institute.",
+    challenge: "Managing student registrations, course schedules, and learning materials manually was becoming unscalable. They needed a centralized system to handle the entire student lifecycle.",
+    solution: "Developed a custom portal handling student registration, course progression tracking, and automated notifications. The system reduces administrative overhead and improves the student experience.",
     results: [
-      { label: "Onboarding time", value: "-52%" },
-      { label: "Project setup accuracy", value: "+99%" },
-      { label: "Admin hours saved/mo", value: "32" }
+      { label: "Admin Time Saved", value: "20hrs/wk" },
+      { label: "Enrollment Speed", value: "2x" },
+      { label: "Student Satisfaction", value: "98%" }
     ],
-    stack: ["Next.js", "Make", "Notion", "Asana", "DocuSign"],
+    stack: ["Next.js", "React", "Node.js", "PostgreSQL"],
     useCaseAnchor: "operations"
   },
   {
-    slug: "ecommerce-automation",
-    title: "E-commerce Automation",
-    client: "North & Co.",
-    industry: "Retail",
-    summary: "Connected inventory and marketing systems to prevent stockouts and orchestrate post‑purchase journeys that lift repeat sales. Real‑time sync kept channels accurate.",
-    challenge: "Inventory updates lagged between commerce and email platforms. Customers received irrelevant messages, and stock mismatches created poor experiences.",
-    solution: "Real‑time inventory synchronization with triggered post‑purchase flows and targeted offers. Added alerting for low-stock items and a dashboard for merchandising decisions.",
+    slug: "sms-wine-nine",
+    title: "SMS Wine Nine",
+    client: "SMS Wine Nine",
+    industry: "E-commerce",
+    summary: "A specialized e-commerce solution designed to simplify wine distribution and enhance the purchasing experience for connoisseurs.",
+    challenge: "The client needed a robust platform to manage complex inventory variants and provide a seamless checkout experience that builds trust with premium customers.",
+    solution: "Implemented a custom e-commerce storefront with advanced filtering, secure payment processing, and inventory synchronization to ensure accurate stock levels.",
     results: [
-      { label: "Revenue lift", value: "+30%" },
-      { label: "Repeat purchase rate", value: "+22%" },
-      { label: "Stockout incidents", value: "-47%" }
+      { label: "Conversion Rate", value: "+15%" },
+      { label: "Checkout Time", value: "-40%" },
+      { label: "Mobile Sales", value: "Up" }
     ],
-    stack: ["Next.js", "n8n", "Shopify", "Klaviyo"],
+    stack: ["Next.js", "Shopify API", "Stripe", "Vercel"],
     useCaseAnchor: "sales"
   }
 ]
