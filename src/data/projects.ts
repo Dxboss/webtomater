@@ -1,53 +1,32 @@
-export type Project = {
+export interface Project {
   slug: string
   title: string
+  role: string
   summary: string
   url?: string
-  stack: string[]
-  role: string
   image?: string
 }
 
 export const projects: Project[] = [
   {
-    slug: "sms-wine-nine",
-    title: "SMS Wine Nine",
-    summary: "School Management System with role-based admin, attendance, grading, and modern UX.",
-    url: "https://sms-wine-nine.vercel.app",
-    stack: ["Next.js", "TypeScript", "Tailwind", "Supabase"],
-    role: "System Design & Development"
-  },
-  {
-    slug: "evolving-with-cheta",
-    title: "Evolving with Cheta",
-    summary: "Blog website design focused on clean typography and content-first layout.",
-    url: "https://evolvingwithcheta.com",
-    stack: ["Web Design", "CMS"],
-    role: "Web Design & Development"
-  },
-  {
     slug: "eunan-tech-training-institute",
     title: "Eunan Tech Training Institute",
-    summary: "Institutional website with programs, admissions information, and contact workflows.",
+    role: "Development",
+    summary: "A comprehensive platform for tech training and education.",
     url: "https://eunantech.com",
-    stack: ["Web Design", "Responsive"],
-    role: "Web Design & Development",
-    image: "/work/eunan-tech.png"
+  },
+  {
+    slug: "sms-wine-nine",
+    title: "SMS Wine Nine",
+    role: "Design & Development",
+    summary: "An e-commerce solution for wine distribution.",
+    url: "https://smswinenine.com",
   },
   {
     slug: "tridah-media",
     title: "Tridah Media",
-    summary: "Design agency website highlighting services, portfolio, and contact flows.",
+    role: "Full Stack",
+    summary: "Digital agency portfolio and service management.",
     url: "https://tridahmedia.com",
-    stack: ["Web Design", "Brand"],
-    role: "Web Design & Development"
   },
-  {
-    slug: "white-field-luxury-apartment",
-    title: "White Field Luxury Apartment",
-    summary: "Property website with listings, amenities, and enquiry contact forms.",
-    url: "https://whitefieldluxuryapartment.com",
-    stack: ["Web Design", "Responsive"],
-    role: "Web Design & Development"
-  }
 ]

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@/lib/utils"
 import { Loader2 } from "lucide-react"
 
@@ -7,6 +8,7 @@ export interface ButtonProps
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
   size?: "default" | "sm" | "lg" | "icon"
   isLoading?: boolean
+  asChild?: boolean
 }
 
 // Variant styles
@@ -35,9 +37,10 @@ export const buttonVariants = ({ variant = "default", size = "default", classNam
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", isLoading, children, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", isLoading, asChild = false, children, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
     return (
-      <button
+      <Comp
         className={buttonVariants({ variant, size, className })}
         ref={ref}
         disabled={isLoading || props.disabled}
@@ -45,7 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         {children}
-      </button>
+      </Comp>
     )
   }
 )

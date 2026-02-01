@@ -101,6 +101,8 @@ export default function ProjectDetailsPage() {
 
   const handlePostUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!project) return
+
     setIsPosting(true)
 
     try {

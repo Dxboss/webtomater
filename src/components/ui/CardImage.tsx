@@ -1,32 +1,36 @@
 "use client"
 
-import * as React from "react"
+import Image from "next/image"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 
-interface CardImageProps {
-  primarySrc?: string | null
+interface CardImageProps extends React.HTMLAttributes<HTMLDivElement> {
+  primarySrc: string
   fallbackSrc?: string | null
   alt: string
-  className?: string
 }
 
-export function CardImage({ primarySrc, fallbackSrc, alt, className = "" }: CardImageProps) {
-  const [src, setSrc] = React.useState<string | undefined>(primarySrc || undefined)
+export function CardImage({ primarySrc, fallbackSrc, alt, className, ...props }: CardImageProps) {
+  const [src, setSrc] = useState(primarySrc)
+  const [error, setError] = useState(false)
 
-  React.useEffect(() => {
-    setSrc(primarySrc || undefined)
-  }, [primarySrc])
+  if (error && !fallbackSrc) {
+    return (
+      <div className={cn("flex items-center justify-center bg-secondary text-muted-foreground", className)} {...props}>
+        No image
+      </div>
+    )
+  }
 
   return (
-    <img
-      src={src || fallbackSrc || undefined}
-      alt={alt}
-      className={"object-cover " + className}
-      onError={() => {
-        if (fallbackSrc && src !== fallbackSrc) {
-          setSrc(fallbackSrc)
-        }
-      }}
-    />
+    <div className={cn("relative overflow-hidden", className)} {...props}>
+      <Image
+        src={error && fallbackSrc ? fallbackSrc : src}
+        alt={alt}
+        fill
+        className="object-cover"
+        onError={() => setError(true)}
+      />
+    </div>
   )
 }
-
