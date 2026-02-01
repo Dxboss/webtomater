@@ -29,10 +29,25 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      services: [],
+    }
   })
+
+  const selectedServices = watch("services") || []
+
+  const toggleService = (service: string) => {
+    const current = selectedServices
+    const updated = current.includes(service)
+      ? current.filter((s) => s !== service)
+      : [...current, service]
+    setValue("services", updated, { shouldValidate: true })
+  }
 
   async function onSubmit(data: ContactFormData) {
     setIsSubmitting(true)
@@ -141,6 +156,35 @@ export function ContactForm() {
         <div className="space-y-2">
           <Label htmlFor="phone">Phone (Optional)</Label>
           <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" {...register("phone")} />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Label>Services Required</Label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {SERVICES.map((service) => (
+            <div 
+              key={service}
+              className={cn(
+                "flex items-center space-x-3 border rounded-md p-3 transition-colors cursor-pointer hover:bg-muted/50",
+                selectedServices.includes(service) ? "border-primary bg-primary/5" : "border-input"
+              )}
+              onClick={() => toggleService(service)}
+            >
+              <Checkbox 
+                id={`service-${service}`} 
+                checked={selectedServices.includes(service)}
+                onCheckedChange={() => toggleService(service)}
+              />
+              <label
+                htmlFor={`service-${service}`}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer w-full"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {service}
+              </label>
+            </div>
+          ))}
         </div>
       </div>
 

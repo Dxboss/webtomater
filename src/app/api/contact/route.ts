@@ -21,7 +21,12 @@ export async function POST(request: Request) {
       )
     }
 
-    const { name, email, company, phone, message, budget, timeline } = result.data
+    const { name, email, company, phone, message, budget, timeline, services } = result.data
+
+    // Format message to include services if present
+    const messageWithServices = services && services.length > 0
+      ? `[Services Required: ${services.join(", ")}]\n\n${message}`
+      : message;
 
     // Insert into Supabase (Using REST API directly to bypass client issues)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -42,7 +47,7 @@ export async function POST(request: Request) {
         email,
         company,
         phone,
-        message,
+        message: messageWithServices,
         budget,
         timeline,
       })
