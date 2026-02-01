@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button"
 import { ArrowLeft, Calendar, DollarSign, Clock, CheckCircle, AlertCircle, Circle, PauseCircle, FileText, Download, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { format } from "date-fns"
+import { PaystackButton } from 'react-paystack'
 
 const statusConfig = {
   pending: { label: 'Pending', icon: Circle, color: 'bg-yellow-100 text-yellow-800' },
@@ -25,120 +26,6 @@ const updateTypeConfig = {
   issue: { label: 'Issue', color: 'bg-red-100 text-red-800' },
   review: { label: 'Review', color: 'bg-orange-100 text-orange-800' }
 }
-
-export default function ProjectDetailPage() {
-  const { id } = useParams()
-  const [project, setProject] = useState<Project | null>(null)
-  const [files, setFiles] = useState<ProjectFile[]>([])
-  const [updates, setUpdates] = useState<ProjectUpdate[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchProjectData()
-  }, [id])
-
-  const fetchProjectData = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    // Fetch project
-    const { data: projectData } = await supabase
-      .from('projects')
-      .select('*')
-      .eq('id', id)
-      .eq('user_id', user.id)
-      .single()
-
-    if (projectData) {
-      setProject(projectData)
-
-      // Fetch files
-      const { data: filesData } = await supabase
-        .from('project_files')
-        .select('*')
-        .eq('project_id', id)
-        .order('created_at', { ascending: false })
-
-      if (filesData) setFiles(filesData)
-
-      // Fetch updates
-      const { data: updatesData } = await supabase
-        .from('project_updates')
-        .select('*')
-        .eq('project_id', id)
-        .order('created_at', { ascending: false })
-
-      if (updatesData) setUpdates(updatesData)
-    }
-
-    setLoading(false)
-  }
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
-  }
-
-  if (!project) {
-    return <div>Project not found</div>
-  }
-
-  const status = statusConfig[project.status]
-  const StatusIcon = status.icon
-
-  return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/portal">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-display font-bold text-gray-900">{project.title}</h1>
-            <p className="text-gray-500 mt-1">{project.description}</p>
-          </div>
-        </div>
-        <Badge className={status.color}>
-          <StatusIcon className="w-3 h-3 mr-1" />
-          {status.label}
-        </Badge>
-      </div>
-
-      {/* Project Info */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base font-medium">Start Date</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center text-gray-600">
-              <Calendar className="w-4 h-4 mr-2" />
-              {format(new Date(project.start_date), 'MMM d, yyyy')}
-            </div>
-          </CardContent>
-        </Card>
-
-        {project.deadline && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base font-medium">Deadline</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center text-gray-600">
-                <Clock className="w-4 h-4 mr-2" />
-                {format(new Date(project.deadline), 'MMM d, yyyy')}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-import { PaystackButton } from 'react-paystack';
 
 export default function ProjectDetailPage() {
   const { id } = useParams()
@@ -227,6 +114,52 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link href="/portal">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-3xl font-display font-bold text-gray-900">{project.title}</h1>
+            <p className="text-gray-500 mt-1">{project.description}</p>
+          </div>
+        </div>
+        <Badge className={status.color}>
+          <StatusIcon className="w-3 h-3 mr-1" />
+          {status.label}
+        </Badge>
+      </div>
+
+      {/* Project Info */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base font-medium">Start Date</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center text-gray-600">
+              <Calendar className="w-4 h-4 mr-2" />
+              {format(new Date(project.start_date), 'MMM d, yyyy')}
+            </div>
+          </CardContent>
+        </Card>
+
+        {project.deadline && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base font-medium">Deadline</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center text-gray-600">
+                <Clock className="w-4 h-4 mr-2" />
+                {format(new Date(project.deadline), 'MMM d, yyyy')}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {project.budget && (
           <Card>
