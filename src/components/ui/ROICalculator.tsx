@@ -47,7 +47,7 @@ export function ROICalculator() {
   const config = CURRENCIES[currency]
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white border border-gray-200 p-8 md:p-12 shadow-2xl relative overflow-hidden group rounded-2xl">
+    <div className="w-full max-w-5xl mx-auto bg-white border border-gray-200 p-8 md:p-12 shadow-2xl relative overflow-hidden group rounded-2xl">
       <div className="relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-black">
@@ -152,7 +152,7 @@ export function ROICalculator() {
           </div>
 
           {/* Results Display */}
-          <div className="bg-black text-white p-10 md:p-12 flex flex-col justify-center relative overflow-hidden rounded-2xl shadow-2xl">
+          <div className="bg-black text-white p-8 md:p-12 lg:p-10 flex flex-col justify-center relative overflow-hidden rounded-2xl shadow-2xl">
             
             <div className="relative z-10 space-y-10">
               <div>
@@ -164,7 +164,7 @@ export function ROICalculator() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="text-4xl md:text-5xl font-bold font-display text-blue-500 tracking-tight"
+                  className="text-3xl md:text-4xl font-bold font-display text-blue-500 tracking-tight"
                 >
                   {config.symbol}{monthlySavings.toLocaleString()}
                 </motion.div>
@@ -181,7 +181,7 @@ export function ROICalculator() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="text-5xl md:text-6xl font-bold font-display text-white tracking-tight"
+                  className="text-4xl md:text-5xl font-bold font-display text-white tracking-tight"
                 >
                   {config.symbol}{annualSavings.toLocaleString()}
                 </motion.div>
