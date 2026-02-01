@@ -175,6 +175,7 @@ export function ContactForm() {
                 id={`service-${service}`} 
                 checked={selectedServices.includes(service)}
                 onCheckedChange={() => toggleService(service)}
+                onClick={(e) => e.stopPropagation()}
               />
               <label
                 htmlFor={`service-${service}`}
