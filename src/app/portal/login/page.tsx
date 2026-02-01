@@ -99,6 +99,19 @@ export default function PortalLogin() {
           )}
 
           <div className="space-y-2">
+            {isSignUp && (
+              <div className="space-y-2 mb-4">
+                <label className="text-sm font-medium text-gray-700">Full Name</label>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+            )}
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
