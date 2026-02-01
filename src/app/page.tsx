@@ -54,7 +54,7 @@ export default function Home() {
                   Start Audit <ArrowUpRight className="ml-2 h-5 w-5" />
                 </MagneticCTA>
                 <MagneticCTA 
-                  href="#services" 
+                  href="/services" 
                   prefetch={false}
                   className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-14 px-10 rounded-none text-lg font-mono uppercase tracking-wider border-foreground text-foreground hover:bg-foreground hover:text-background")}
                 >
