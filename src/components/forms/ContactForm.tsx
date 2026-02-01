@@ -9,8 +9,10 @@ import { Input } from "@/components/ui/Input"
 import { Textarea } from "@/components/ui/Textarea"
 import { Label } from "@/components/ui/Label"
 import { cn } from "@/lib/utils"
+import { useUserLocation } from "@/hooks/useUserLocation"
 
 export function ContactForm() {
+  const { currency } = useUserLocation()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isSuccess, setIsSuccess] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
