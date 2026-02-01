@@ -16,7 +16,8 @@ export default function Home() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <div className="flex flex-col bg-grid-pattern">
+    <div className="flex flex-col relative">
+      <div className="absolute inset-0 bg-grid-pattern pointer-events-none -z-10" />
       {/* Hero Section - Brutalist/Swiss Style */}
       <Section className="relative min-h-[90vh] flex flex-col justify-center border-b border-border overflow-hidden pt-0 pb-0">
         <FluidBackground />
