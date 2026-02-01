@@ -3,8 +3,26 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
-  // Get country from Vercel header, default to 'US'
-  const country = request.headers.get('x-vercel-ip-country') || 'US';
+  // Get country from Vercel header
+  let country = request.headers.get('x-vercel-ip-country');
+  
+  // If no Vercel header (local dev), try external service
+  if (!country) {
+    try {
+      const ipRes = await fetch('http://ip-api.com/json/?fields=countryCode', { 
+        next: { revalidate: 3600 } // Cache for 1 hour to avoid rate limits
+      });
+      if (ipRes.ok) {
+        const ipData = await ipRes.json();
+        country = ipData.countryCode;
+      }
+    } catch (e) {
+      console.error('External IP lookup failed:', e);
+    }
+  }
+
+  // Fallback to US if all else fails
+  country = country || 'US';
   
   let currency = 'USD';
   let symbol = '$';
