@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Slider } from "@/components/ui/Slider"
 import { DollarSign, Clock, TrendingUp, Banknote } from "lucide-react"
-import { useUserLocation, type Currency } from "@/hooks/useUserLocation"
+import { useUserLocation, type Currency } from "../../hooks/useUserLocation"
 
 const CURRENCIES: Record<Currency, { symbol: string, rateMin: number, rateMax: number, rateStep: number, defaultRate: number }> = {
   USD: { symbol: '$', rateMin: 15, rateMax: 500, rateStep: 5, defaultRate: 50 },

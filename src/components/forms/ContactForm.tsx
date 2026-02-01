@@ -147,10 +147,11 @@ export function ContactForm() {
             {...register("budget")}
           >
             <option value="">Select a range...</option>
-            <option value="< $5k">Less than $5k</option>
-            <option value="$5k - $10k">$5k - $10k</option>
-            <option value="$10k - $25k">$10k - $25k</option>
-            <option value="$25k+">$25k+</option>
+            {getBudgetOptions().map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
