@@ -40,8 +40,8 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5 text-accent mt-1" />
                   <div>
                     <span className="block font-bold text-lg">Email</span>
-                    <a href="mailto:hello@webautomate.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                      hello@webautomate.com
+                    <a href="mailto:thegeorgedigitals@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors">
+                      thegeorgedigitals@gmail.com
                     </a>
                   </div>
                 </li>
@@ -49,8 +49,8 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-accent mt-1" />
                   <div>
                     <span className="block font-bold text-lg">Phone</span>
-                    <a href="tel:+15550000000" className="text-muted-foreground hover:text-foreground transition-colors">
-                      +1 (555) 000-0000
+                    <a href="tel:08110454293" className="text-muted-foreground hover:text-foreground transition-colors">
+                      08110454293
                     </a>
                   </div>
                 </li>
@@ -59,8 +59,7 @@ export default function ContactPage() {
                   <div>
                     <span className="block font-bold text-lg">Office</span>
                     <p className="text-muted-foreground">
-                      123 Automation Blvd<br />
-                      Tech District, NY 10001
+                      Asokoro, Abuja
                     </p>
                   </div>
                 </li>
