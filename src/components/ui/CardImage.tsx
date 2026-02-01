@@ -5,7 +5,7 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface CardImageProps extends React.HTMLAttributes<HTMLDivElement> {
-  primarySrc: string
+  primarySrc?: string
   fallbackSrc?: string | null
   alt: string
 }

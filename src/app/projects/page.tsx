@@ -53,7 +53,7 @@ export default async function ProjectsPage() {
                 <div key={p.slug} className="rounded-lg border bg-white shadow-sm flex flex-col overflow-hidden">
                   <div className="h-40 border-b border-border bg-secondary/40">
                     {(primary || og) ? (
-                      <CardImage primarySrc={primary} fallbackSrc={og} alt={p.title} className="w-full h-full" />
+                      <CardImage primarySrc={primary ?? undefined} fallbackSrc={og ?? undefined} alt={p.title} className="w-full h-full" />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center text-sm text-muted-foreground">No preview</div>
                     )}
