@@ -164,7 +164,7 @@ export function ROICalculator() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="text-5xl md:text-6xl font-bold font-display text-blue-500"
+                  className="text-4xl md:text-5xl font-bold font-display text-blue-500 tracking-tight"
                 >
                   {config.symbol}{monthlySavings.toLocaleString()}
                 </motion.div>
@@ -181,7 +181,7 @@ export function ROICalculator() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="text-6xl md:text-7xl font-bold font-display text-white"
+                  className="text-5xl md:text-6xl font-bold font-display text-white tracking-tight"
                 >
                   {config.symbol}{annualSavings.toLocaleString()}
                 </motion.div>
