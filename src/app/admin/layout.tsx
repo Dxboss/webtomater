@@ -20,7 +20,20 @@ export default function AdminLayout({
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session && pathname !== "/admin/login") {
+      
+      // If on login page
+      if (pathname === "/admin/login") {
+        if (session) {
+          // If already logged in, redirect to admin dashboard
+          router.push("/admin")
+        } else {
+          setLoading(false)
+        }
+        return
+      }
+
+      // If not on login page
+      if (!session) {
         router.push("/admin/login")
         return
       }
@@ -35,23 +48,22 @@ export default function AdminLayout({
 
         if (profile?.role === 'admin' || session.user.email === 'davidgeorge2152.dg@gmail.com') {
           // Allow access
+          setLoading(false)
         } else {
-          // If not admin, redirect to portal (or home)
+          // If not admin, redirect to portal
           router.push('/portal')
-          return
         }
       }
-      setLoading(false)
     }
 
     checkAuth()
   }, [router, pathname])
 
-  if (loading) return null
-
   if (pathname === "/admin/login") {
     return <>{children}</>
   }
+
+  if (loading) return null
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

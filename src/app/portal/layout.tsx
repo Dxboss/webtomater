@@ -22,35 +22,49 @@ export default function PortalLayout({
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        if (pathname !== "/portal/login") {
-          router.push("/portal/login")
+      
+      // If on login page
+      if (pathname === "/portal/login") {
+        if (session) {
+          // If already logged in, redirect to portal
+          router.push("/portal")
+        } else {
+          setLoading(false)
         }
-      } else {
-        setUser(session.user)
-        
-        // Check if user is trying to access portal but is actually an admin
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single()
-
-        if (profile?.role === 'admin' || session.user.email === 'davidgeorge2152.dg@gmail.com') {
-          setIsAdmin(true)
-        }
+        return
       }
+
+      // If not on login page
+      if (!session) {
+        router.push("/portal/login")
+        return
+      }
+      
+      // Session exists
+      setUser(session.user)
+      
+      // Check if user is trying to access portal but is actually an admin
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', session.user.id)
+        .single()
+
+      if (profile?.role === 'admin' || session.user.email === 'davidgeorge2152.dg@gmail.com') {
+        setIsAdmin(true)
+      }
+      
       setLoading(false)
     }
 
     checkAuth()
   }, [router, pathname])
 
-  if (loading) return null
-
   if (pathname === "/portal/login") {
     return <>{children}</>
   }
+
+  if (loading) return null
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
