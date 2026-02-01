@@ -34,6 +34,11 @@ export default function PortalLogin() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              full_name: fullName,
+            },
+          },
         })
         if (error) throw error
         setSuccess("Account created! You can now log in.")
