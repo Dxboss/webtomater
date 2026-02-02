@@ -93,7 +93,7 @@ export default function PortalLayout({
 
       {/* Sidebar */}
       <aside className={`
-        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-64px)] top-[64px] z-40 flex flex-col transition-transform duration-300
+        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-64px)] top-[64px] z-50 flex flex-col transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0 md:static md:flex md:h-screen md:top-0
       `}>

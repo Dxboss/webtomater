@@ -111,7 +111,19 @@ export default async function BlogPostPage({ params }: Props) {
         <Container>
           <div className="max-w-3xl mx-auto">
             <div className="prose prose-lg prose-gray prose-headings:font-display prose-headings:font-bold prose-headings:uppercase prose-a:text-accent prose-img:rounded-xl max-w-none">
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  img: ({ node, ...props }) => (
+                    <img 
+                      {...props} 
+                      className="rounded-xl shadow-lg w-full h-auto my-8" 
+                      loading="lazy"
+                    />
+                  )
+                }}
+              >
+                {post.content}
+              </ReactMarkdown>
             </div>
 
             <div className="mt-16 pt-8 border-t border-gray-100 flex justify-between items-center">

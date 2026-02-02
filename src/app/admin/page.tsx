@@ -61,21 +61,22 @@ export default function AdminDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Active Projects", value: stats.projects, icon: Briefcase, color: "bg-blue-50 text-blue-600" },
-          { label: "Total Revenue", value: `$${stats.revenue.toLocaleString()}`, icon: TrendingUp, color: "bg-green-50 text-green-600" },
-          { label: "Total Leads", value: stats.leads, icon: Users, color: "bg-purple-50 text-purple-600" },
-          { label: "Published Posts", value: stats.posts, icon: FileText, color: "bg-orange-50 text-orange-600" },
+          { label: "Active Projects", value: stats.projects, icon: Briefcase, color: "bg-blue-50 text-blue-600", link: "/admin/projects" },
+          { label: "Total Revenue", value: `$${stats.revenue.toLocaleString()}`, icon: TrendingUp, color: "bg-green-50 text-green-600", link: "/admin/audits" },
+          { label: "Total Leads", value: stats.leads, icon: Users, color: "bg-purple-50 text-purple-600", link: "/admin/leads" },
+          { label: "Published Posts", value: stats.posts, icon: FileText, color: "bg-orange-50 text-orange-600", link: "/admin/posts" },
         ].map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-lg ${stat.color}`}>
-                <stat.icon className="w-6 h-6" />
+          <Link key={i} href={stat.link} className="block group">
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm transition-all hover:shadow-md hover:border-accent/20">
+              <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-lg ${stat.color} group-hover:scale-110 transition-transform`}>
+                  <stat.icon className="w-6 h-6" />
+                </div>
               </div>
-              {/* Could add % change here later */}
+              <h3 className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
+              <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
-            <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

@@ -98,7 +98,7 @@ export default function AdminLayout({
 
       {/* Sidebar */}
       <aside className={`
-        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-64px)] top-[64px] z-40 flex flex-col transition-transform duration-300 overflow-y-auto
+        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-64px)] top-[64px] z-50 flex flex-col transition-transform duration-300 overflow-y-auto
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0 md:sticky md:flex md:h-screen md:top-0
       `}>
@@ -170,16 +170,16 @@ export default function AdminLayout({
             Subscribers
           </Link>
           <Link 
-            href="/admin/posts/new" 
+            href="/admin/posts" 
             onClick={() => setSidebarOpen(false)}
             className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname === "/admin/posts/new"
+              pathname.startsWith("/admin/posts")
                 ? "bg-accent/10 text-accent" 
                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
             }`}
           >
             <FileText className="w-5 h-5" />
-            New Post
+            Blog Posts
           </Link>
           <Link 
             href="/admin/settings" 
