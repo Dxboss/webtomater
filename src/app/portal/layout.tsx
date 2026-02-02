@@ -74,24 +74,31 @@ export default function PortalLayout({
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-[60]">
-        {/* Main Logo Header */}
-        <div className="flex justify-between items-center p-4">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-[60] flex flex-col bg-white border-b border-gray-200">
+        {/* Top Row: Main Logo & Nav Icon (Placeholder if needed) */}
+        <div className="flex justify-between items-center h-16 px-4 border-b border-gray-100">
           <Link href="/" className="font-display font-bold text-xl tracking-tight">
             WebAutomate
           </Link>
+          {/* Main Nav Toggle (Placeholder to match main site) */}
+          <div className="md:hidden">
+            <Link href="/">
+              <Button variant="ghost" size="icon">
+                <Menu className="w-6 h-6" />
+              </Button>
+            </Link>
+          </div>
         </div>
         
-        {/* Sub-header for Menu Toggle */}
-        <div className="px-4 pb-2">
-          <Button 
-            variant="outline" 
-            size="icon" 
+        {/* Bottom Row: Sidebar Toggle */}
+        <div className="flex items-center h-12 px-4 bg-gray-50/50">
+          <button 
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="h-8 w-8 text-gray-600 border-gray-300"
+            className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
           >
-            {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </Button>
+            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <span>{sidebarOpen ? "Close Menu" : "Portal Menu"}</span>
+          </button>
         </div>
       </div>
 
@@ -105,7 +112,7 @@ export default function PortalLayout({
 
       {/* Sidebar */}
       <aside className={`
-        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-105px)] top-[105px] z-50 flex flex-col transition-transform duration-300
+        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-112px)] top-[112px] z-50 flex flex-col transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0 md:static md:flex md:h-screen md:top-0
       `}>
