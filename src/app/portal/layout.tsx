@@ -74,13 +74,25 @@ export default function PortalLayout({
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 p-4 z-[60] flex justify-between items-center">
-        <Link href="/" className="font-display font-bold text-xl tracking-tight">
-          WebAutomate
-        </Link>
-        <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)}>
-          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </Button>
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-[60]">
+        {/* Main Logo Header */}
+        <div className="flex justify-between items-center p-4">
+          <Link href="/" className="font-display font-bold text-xl tracking-tight">
+            WebAutomate
+          </Link>
+        </div>
+        
+        {/* Sub-header for Menu Toggle */}
+        <div className="px-4 pb-2">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="h-8 w-8 text-gray-600 border-gray-300"
+          >
+            {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </Button>
+        </div>
       </div>
 
       {/* Sidebar Overlay */}
@@ -93,7 +105,7 @@ export default function PortalLayout({
 
       {/* Sidebar */}
       <aside className={`
-        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-64px)] top-[64px] z-50 flex flex-col transition-transform duration-300
+        w-64 bg-white border-r border-gray-200 fixed h-[calc(100%-105px)] top-[105px] z-50 flex flex-col transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0 md:static md:flex md:h-screen md:top-0
       `}>
@@ -181,7 +193,7 @@ export default function PortalLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 w-full md:w-auto p-4 md:p-8 pt-20 md:pt-8 overflow-x-hidden">
+      <main className="flex-1 w-full md:w-auto p-4 md:p-8 pt-36 md:pt-8 overflow-x-hidden">
         {children}
       </main>
     </div>

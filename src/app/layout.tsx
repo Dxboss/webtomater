@@ -50,6 +50,7 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
+import { AppLayout } from "@/components/layout/AppLayout";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 export default function RootLayout({
@@ -68,12 +69,15 @@ export default function RootLayout({
         )}
       >
         <SmoothScroll />
-        <div className="relative flex min-h-screen flex-col border-x border-border/40 max-w-[1920px] mx-auto shadow-2xl shadow-black/5">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <StickyCTA />
+        
+        <AppLayout
+          navbar={<Navbar />}
+          footer={<Footer />}
+          stickyCTA={<StickyCTA />}
+        >
+          {children}
+        </AppLayout>
+
         {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
       </body>
     </html>
