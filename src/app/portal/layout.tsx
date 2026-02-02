@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
-import { LayoutDashboard, Briefcase, FileText, Settings, LogOut, User, Menu, X, Loader2 } from "lucide-react"
+import { LayoutDashboard, Briefcase, FileText, Settings, LogOut, User, Menu, X, Loader2, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 
 export default function PortalLayout({
@@ -16,8 +16,18 @@ export default function PortalLayout({
   const [user, setUser] = useState<any>(null)
   const [isAdmin, setIsAdmin] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [mainNavOpen, setMainNavOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+
+  const mainNavigation = [
+    { name: "Services", href: "/services", number: "01" },
+    { name: "Projects", href: "/projects", number: "02" },
+    { name: "Case Studies", href: "/case-studies", number: "03" },
+    { name: "Use Cases", href: "/automation-use-cases", number: "04" },
+    { name: "Blog", href: "/blog", number: "05" },
+    { name: "About", href: "/about", number: "06" },
+  ]
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -80,13 +90,38 @@ export default function PortalLayout({
           <Link href="/portal" className="font-display font-bold text-xl tracking-tight">
             WebAutomate
           </Link>
-          {/* Main Nav Toggle (Placeholder to match main site) */}
-          <div className="md:hidden">
-            <Link href="/">
-              <Button variant="ghost" size="icon">
-                <Menu className="w-6 h-6" />
-              </Button>
-            </Link>
+          {/* Main Nav Toggle */}
+          <div className="md:hidden relative">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setMainNavOpen(!mainNavOpen)}
+            >
+              {mainNavOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
+
+            {/* Mobile Menu Overlay */}
+            {mainNavOpen && (
+              <div className="fixed inset-0 top-16 bg-[#F5F5F0] z-[60] flex flex-col p-6 overflow-y-auto">
+                <div className="flex flex-col gap-6 mt-4">
+                  {mainNavigation.map((item) => (
+                    <Link 
+                      key={item.name} 
+                      href={item.href}
+                      onClick={() => setMainNavOpen(false)}
+                      className="flex items-baseline gap-4 group"
+                    >
+                      <span className="text-sm font-mono text-blue-600 font-medium pt-1">
+                        {item.number}
+                      </span>
+                      <span className="text-5xl font-display font-bold text-gray-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
+                        {item.name}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
         
