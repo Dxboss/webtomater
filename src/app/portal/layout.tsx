@@ -114,7 +114,7 @@ export default function PortalLayout({
                       <span className="text-sm font-mono text-blue-600 font-medium pt-1">
                         {item.number}
                       </span>
-                      <span className="text-5xl font-display font-bold text-gray-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
+                      <span className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gray-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
                         {item.name}
                       </span>
                     </Link>
