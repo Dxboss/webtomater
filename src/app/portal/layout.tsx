@@ -77,7 +77,7 @@ export default function PortalLayout({
       <div className="md:hidden fixed top-0 left-0 right-0 z-[60] flex flex-col bg-white border-b border-gray-200">
         {/* Top Row: Main Logo & Nav Icon (Placeholder if needed) */}
         <div className="flex justify-between items-center h-16 px-4 border-b border-gray-100">
-          <Link href="/" className="font-display font-bold text-xl tracking-tight">
+          <Link href="/portal" className="font-display font-bold text-xl tracking-tight">
             WebAutomate
           </Link>
           {/* Main Nav Toggle (Placeholder to match main site) */}
