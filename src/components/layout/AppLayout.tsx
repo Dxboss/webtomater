@@ -11,7 +11,12 @@ interface AppLayoutProps {
 
 export function AppLayout({ children, navbar, footer, stickyCTA }: AppLayoutProps) {
   const pathname = usePathname()
-  const isSpecialPage = pathname?.startsWith("/admin") || pathname?.startsWith("/portal")
+  
+  // Only exclude layout for non-login admin/portal pages
+  // Login pages (/admin/login, /portal/login) should show the standard navbar
+  const isSpecialPage = 
+    (pathname?.startsWith("/admin") && !pathname?.startsWith("/admin/login")) || 
+    (pathname?.startsWith("/portal") && !pathname?.startsWith("/portal/login"))
 
   if (isSpecialPage) {
     return <>{children}</>
