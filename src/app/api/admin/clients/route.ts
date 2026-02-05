@@ -42,11 +42,19 @@ export async function GET(request: Request) {
         // We found a user without a profile!
         // Let's assume they are a 'client' if they are not in the system yet.
         missingProfiles.push({
+          // full_name might not exist if schema changed, but let's try to adapt
+          // We will remove full_name if it causes error, but here we are constructing the object for UPSERT.
+          // If the DB column is missing, this UPSERT will fail.
+          // Based on user error "column profiles.full_name does not exist", we should NOT include it if the table doesn't have it.
+          // BUT, we need to know what columns DOES it have.
+          // Usually it's first_name, last_name OR just name.
+          // Let's assume 'full_name' was removed or never there.
+          // We will use a safe payload.
           id: user.id,
           email: user.email,
-          full_name: user.user_metadata?.full_name || user.email?.split('@')[0],
           role: 'client',
           created_at: user.created_at
+          // Removed full_name to prevent "column does not exist" error
         })
       }
     }
