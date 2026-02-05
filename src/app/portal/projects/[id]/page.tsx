@@ -46,7 +46,13 @@ export default function ProjectDetailPage() {
           const response = await fetch(`/api/portal/project?id=${id}&email=${user.email}`)
           
           if (!response.ok) {
-            const errorData = await response.json()
+            const text = await response.text()
+            let errorData
+            try {
+              errorData = JSON.parse(text)
+            } catch {
+              throw new Error(`Server error (${response.status}): ${text.slice(0, 100)}`)
+            }
             throw new Error(errorData.error || 'Failed to fetch project')
           }
           
