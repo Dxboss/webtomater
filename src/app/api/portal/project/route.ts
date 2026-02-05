@@ -22,12 +22,14 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
+  const rawId = searchParams.get('id')
   const email = searchParams.get('email')
 
-  if (!id || !email) {
+  if (!rawId || !email) {
     return NextResponse.json({ error: 'Missing id or email' }, { status: 400 })
   }
+
+  const id = rawId.trim()
 
   try {
     // 1. Fetch project by ID and check if client_email matches
@@ -37,8 +39,20 @@ export async function GET(request: Request) {
       .eq('id', id)
       .single()
 
-    if (projectError || !project) {
-      return NextResponse.json({ error: 'Project not found in database' }, { status: 404 })
+    if (projectError) {
+      console.error("Supabase Error:", projectError)
+      return NextResponse.json({ 
+        error: `Database error: ${projectError.message}`, 
+        details: projectError,
+        queriedId: id 
+      }, { status: 500 })
+    }
+
+    if (!project) {
+      return NextResponse.json({ 
+        error: 'Project not found in database (Row is null)',
+        queriedId: id
+      }, { status: 404 })
     }
 
     // Verify access (Case insensitive and trimmed)
