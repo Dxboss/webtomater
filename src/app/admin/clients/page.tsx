@@ -49,14 +49,15 @@
 
          // Fallback to direct query if API fails
          console.warn("Falling back to direct Supabase query")
-         const { data, error } = await supabase
-           .from("profiles")
-           .select("id,email,full_name,role,created_at")
-           .eq("role", "client")
-           .order("created_at", { ascending: false })
-
-         if (error) throw error
-         if (data) setClients(data as ClientProfile[])
+        const { data, error } = await supabase
+          .from("profiles")
+          // Removed full_name to prevent error if column doesn't exist
+          .select("id,email,role,created_at")
+          .eq("role", "client")
+          .order("created_at", { ascending: false })
+          
+        if (error) throw error
+        if (data) setClients(data as ClientProfile[])
        } else {
          const data = await response.json()
          if (data.clients) {
