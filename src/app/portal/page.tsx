@@ -20,12 +20,12 @@ export default function PortalDashboard() {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
 
-      if (user) {
-        // Fetch projects for this user
+      if (user?.email) {
+        // Fetch projects where client_email matches the logged-in user's email
         const { data } = await supabase
           .from('projects')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('client_email', user.email)
           .order('created_at', { ascending: false })
         
         if (data) setProjects(data)

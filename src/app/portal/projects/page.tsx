@@ -17,11 +17,12 @@ export default function ProjectsPage() {
   useEffect(() => {
     const getData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
+      
+      if (user?.email) {
         const { data } = await supabase
           .from('projects')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('client_email', user.email)
           .order('created_at', { ascending: false })
         
         if (data) setProjects(data)
