@@ -55,26 +55,27 @@ export default function ProjectDetailPage() {
         .eq('client_email', user.email) // CHANGED: user_id -> client_email
         .single()
 
-    if (projectData) {
-      setProject(projectData)
+      if (projectData) {
+        setProject(projectData)
 
-      // Fetch files
-      const { data: filesData } = await supabase
-        .from('project_files')
-        .select('*')
-        .eq('project_id', id)
-        .order('created_at', { ascending: false })
+        // Fetch files
+        const { data: filesData } = await supabase
+          .from('project_files')
+          .select('*')
+          .eq('project_id', id)
+          .order('created_at', { ascending: false })
 
-      if (filesData) setFiles(filesData)
+        if (filesData) setFiles(filesData)
 
-      // Fetch updates
-      const { data: updatesData } = await supabase
-        .from('project_updates')
-        .select('*')
-        .eq('project_id', id)
-        .order('created_at', { ascending: false })
+        // Fetch updates
+        const { data: updatesData } = await supabase
+          .from('project_updates')
+          .select('*')
+          .eq('project_id', id)
+          .order('created_at', { ascending: false })
 
-      if (updatesData) setUpdates(updatesData)
+        if (updatesData) setUpdates(updatesData)
+      }
     }
 
     setLoading(false)
