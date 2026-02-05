@@ -31,12 +31,17 @@ export async function GET(request: Request) {
       .single()
 
     if (projectError || !project) {
-      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Project not found in database' }, { status: 404 })
     }
 
-    // Verify access
-    if (project.client_email !== email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    // Verify access (Case insensitive and trimmed)
+    const normalizedProjectEmail = project.client_email?.trim().toLowerCase()
+    const normalizedUserEmail = email.trim().toLowerCase()
+
+    if (normalizedProjectEmail !== normalizedUserEmail) {
+      return NextResponse.json({ 
+        error: `Unauthorized access. Project is assigned to ${project.client_email}, but you are logged in as ${email}` 
+      }, { status: 403 })
     }
 
     // 2. Fetch related data (files, updates)

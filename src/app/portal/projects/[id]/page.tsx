@@ -34,35 +34,37 @@ export default function ProjectDetailPage() {
   const [updates, setUpdates] = useState<ProjectUpdate[]>([])
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   useEffect(() => {
-    const getUser = async () => {
+    const fetchProjectData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user?.email) setUserEmail(user.email)
+      if (user?.email) {
+        setUserEmail(user.email)
+        // Fetch via API to bypass RLS
+        try {
+          const response = await fetch(`/api/portal/project?id=${id}&email=${user.email}`)
+          
+          if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.error || 'Failed to fetch project')
+          }
+          
+          const data = await response.json()
+          
+          if (data.project) setProject(data.project)
+          if (data.files) setFiles(data.files)
+          if (data.updates) setUpdates(data.updates)
+        } catch (error: any) {
+          console.error("Error fetching project:", error)
+          setErrorMsg(error.message)
+        }
+      }
+      setLoading(false)
     }
-    getUser()
+
     fetchProjectData()
   }, [id])
-
-  const fetchProjectData = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user?.email) {
-      // Fetch via API to bypass RLS
-      try {
-        const response = await fetch(`/api/portal/project?id=${id}&email=${user.email}`)
-        if (!response.ok) throw new Error('Failed to fetch project')
-        
-        const data = await response.json()
-        
-        if (data.project) setProject(data.project)
-        if (data.files) setFiles(data.files)
-        if (data.updates) setUpdates(data.updates)
-      } catch (error) {
-        console.error("Error fetching project:", error)
-      }
-    }
-    setLoading(false)
-  }
 
   const paystackConfig = {
     reference: (new Date()).getTime().toString(),
@@ -81,15 +83,23 @@ export default function ProjectDetailPage() {
   }
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
+    return <div className="p-8">Loading...</div>
   }
 
-  if (!project) {
-    return <div>Project not found</div>
+  if (errorMsg || !project) {
+    return (
+      <div className="p-8 text-center">
+        <h2 className="text-xl font-bold text-gray-900">
+          {errorMsg || "Project not found"}
+        </h2>
+        <p className="text-gray-500 mt-2">
+          {errorMsg ? "Please contact support if you believe this is an error." : "This project may not exist or you don't have permission to view it."}
+        </p>
+        <Link href="/portal/projects">
+          <Button variant="ghost" className="mt-4">Back to Projects</Button>
+        </Link>
+      </div>
+    )
   }
 
   const status = statusConfig[project.status]
