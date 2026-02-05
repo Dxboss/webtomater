@@ -200,6 +200,18 @@ export default function AdminLayout({
             Leads
           </Link>
           <Link 
+            href="/admin/clients" 
+            onClick={() => setSidebarOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+              pathname.includes("/admin/clients") 
+                ? "bg-accent/10 text-accent" 
+                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            }`}
+          >
+            <Users className="w-5 h-5" />
+            Clients
+          </Link>
+          <Link 
             href="/admin/audits" 
             onClick={() => setSidebarOpen(false)}
             className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${

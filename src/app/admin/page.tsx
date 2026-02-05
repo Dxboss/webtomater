@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState({
     projects: 0,
     leads: 0,
+    clients: 0,
     posts: 0,
     revenue: 0
   })
@@ -30,12 +31,14 @@ export default function AdminDashboard() {
       { count: projectsCount, data: projects },
       { count: leadsCount },
       { count: postsCount },
-      { data: allProjects }
+      { data: allProjects },
+      { count: clientsCount }
     ] = await Promise.all([
       supabase.from('projects').select('*', { count: 'exact' }).limit(5).order('created_at', { ascending: false }),
       supabase.from('contact_submissions').select('*', { count: 'exact', head: true }),
       supabase.from('posts').select('*', { count: 'exact', head: true }),
-      supabase.from('projects').select('budget')
+      supabase.from('projects').select('budget'),
+      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'client'),
     ])
 
     const totalRevenue = allProjects?.reduce((sum, p) => sum + (p.budget || 0), 0) || 0
@@ -43,6 +46,7 @@ export default function AdminDashboard() {
     setStats({
       projects: projectsCount || 0,
       leads: leadsCount || 0,
+      clients: clientsCount || 0,
       posts: postsCount || 0,
       revenue: totalRevenue
     })
@@ -64,6 +68,7 @@ export default function AdminDashboard() {
           { label: "Active Projects", value: stats.projects, icon: Briefcase, color: "bg-blue-50 text-blue-600", link: "/admin/projects" },
           { label: "Total Revenue", value: `$${stats.revenue.toLocaleString()}`, icon: TrendingUp, color: "bg-green-50 text-green-600", link: "/admin/audits" },
           { label: "Total Leads", value: stats.leads, icon: Users, color: "bg-purple-50 text-purple-600", link: "/admin/leads" },
+          { label: "Clients", value: stats.clients, icon: Users, color: "bg-indigo-50 text-indigo-600", link: "/admin/clients" },
           { label: "Published Posts", value: stats.posts, icon: FileText, color: "bg-orange-50 text-orange-600", link: "/admin/posts" },
         ].map((stat, i) => (
           <Link key={i} href={stat.link} className="block group">
