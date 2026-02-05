@@ -34,14 +34,21 @@
      fetchData()
    }, [])
  
+   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
    const fetchData = async () => {
      try {
+       setErrorMsg(null)
        // Fetch from our new smart API that auto-syncs auth users
        const response = await fetch('/api/admin/clients')
 
        if (!response.ok) {
-         // Fallback to direct query if API fails (though API is better)
-         console.warn("API fetch failed, falling back to direct Supabase query")
+         const text = await response.text()
+         console.error("API fetch failed:", response.status, text)
+         setErrorMsg(`API Error (${response.status}): ${text.slice(0, 100)}`)
+
+         // Fallback to direct query if API fails
+         console.warn("Falling back to direct Supabase query")
          const { data, error } = await supabase
            .from("profiles")
            .select("id,email,full_name,role,created_at")
@@ -52,9 +59,14 @@
          if (data) setClients(data as ClientProfile[])
        } else {
          const data = await response.json()
-         if (data.clients) setClients(data.clients)
+         if (data.clients) {
+           setClients(data.clients)
+         } else {
+           setErrorMsg("API returned no 'clients' array")
+         }
        }
 
+       // Fetch projects
        const { data: projectsData, error: projectsError } = await supabase
          .from("projects")
          .select("id,title,client_email")
@@ -62,8 +74,9 @@
 
        if (projectsError) throw projectsError
        if (projectsData) setProjects(projectsData as SimpleProject[])
-     } catch (error) {
+     } catch (error: any) {
        console.error("Error fetching data:", error)
+       setErrorMsg(error.message)
      } finally {
        setLoading(false)
      }
@@ -104,6 +117,13 @@
            <Button variant="outline">Go to Projects</Button>
          </Link>
        </div>
+
+       {errorMsg && (
+         <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">
+           <p className="font-medium">Error loading clients:</p>
+           <p className="text-sm font-mono mt-1">{errorMsg}</p>
+         </div>
+       )}
  
        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
          <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
