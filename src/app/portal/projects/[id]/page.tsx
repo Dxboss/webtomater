@@ -46,15 +46,14 @@ export default function ProjectDetailPage() {
 
   const fetchProjectData = async () => {
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    // Fetch project
-    const { data: projectData } = await supabase
-      .from('projects')
-      .select('*')
-      .eq('id', id)
-      .eq('user_id', user.id)
-      .single()
+    if (user?.email) {
+      // Fetch project by client_email
+      const { data: projectData } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', id)
+        .eq('client_email', user.email) // CHANGED: user_id -> client_email
+        .single()
 
     if (projectData) {
       setProject(projectData)
