@@ -47,37 +47,20 @@ export default function ProjectDetailPage() {
   const fetchProjectData = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (user?.email) {
-      // Fetch project by client_email
-      const { data: projectData } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('id', id)
-        .eq('client_email', user.email) // CHANGED: user_id -> client_email
-        .single()
-
-      if (projectData) {
-        setProject(projectData)
-
-        // Fetch files
-        const { data: filesData } = await supabase
-          .from('project_files')
-          .select('*')
-          .eq('project_id', id)
-          .order('created_at', { ascending: false })
-
-        if (filesData) setFiles(filesData)
-
-        // Fetch updates
-        const { data: updatesData } = await supabase
-          .from('project_updates')
-          .select('*')
-          .eq('project_id', id)
-          .order('created_at', { ascending: false })
-
-        if (updatesData) setUpdates(updatesData)
+      // Fetch via API to bypass RLS
+      try {
+        const response = await fetch(`/api/portal/project?id=${id}&email=${user.email}`)
+        if (!response.ok) throw new Error('Failed to fetch project')
+        
+        const data = await response.json()
+        
+        if (data.project) setProject(data.project)
+        if (data.files) setFiles(data.files)
+        if (data.updates) setUpdates(data.updates)
+      } catch (error) {
+        console.error("Error fetching project:", error)
       }
     }
-
     setLoading(false)
   }
 
