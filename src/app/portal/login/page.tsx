@@ -32,7 +32,7 @@ export default function PortalLogin() {
         setSuccess("Password reset link sent! Check your email.")
         setIsForgotPassword(false)
       } else if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        const { data: authData, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -42,6 +42,24 @@ export default function PortalLogin() {
           },
         })
         if (error) throw error
+
+        // Manually create profile if user is created (backup for trigger)
+        if (authData.user) {
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .upsert({
+              id: authData.user.id,
+              email: email,
+              full_name: fullName,
+              role: 'client'
+            }, { onConflict: 'id' })
+          
+          if (profileError) {
+            console.error("Profile creation failed:", profileError)
+            // Don't block signup success, but log error
+          }
+        }
+
         setSuccess("Account created! You can now log in.")
         setIsSignUp(false)
       } else {
