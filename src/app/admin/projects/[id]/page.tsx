@@ -64,32 +64,24 @@ export default function ProjectDetailsPage() {
     setIsUploading(true)
 
     const file = e.target.files[0]
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`
-    const filePath = `projects/${id}/${fileName}`
-
+    
     try {
-      const { error: uploadError } = await supabase.storage
-        .from('project-files') // You might need to create this bucket
-        .upload(filePath, file)
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('projectId', id as string)
+      if (user?.id) formData.append('uploadedBy', user.id)
 
-      if (uploadError) throw uploadError
+      const response = await fetch('/api/admin/project-files/upload', {
+        method: 'POST',
+        body: formData
+      })
 
-      const { data } = supabase.storage
-        .from('project-files')
-        .getPublicUrl(filePath)
-
-      const { error: dbError } = await supabase
-        .from('project_files')
-        .insert([{
-          project_id: id,
-          file_name: file.name,
-          file_url: data.publicUrl,
-          file_type: file.type,
-          uploaded_by: (await supabase.auth.getUser()).data.user?.id
-        }])
-
-      if (dbError) throw dbError
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Upload failed')
+      }
       
       fetchProjectData() // Refresh
     } catch (error: any) {
