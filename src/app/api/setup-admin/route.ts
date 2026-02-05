@@ -1,47 +1,47 @@
+import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server'
 
-import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+// Use Service Role Key for admin tasks
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  }
+)
 
 export async function POST(request: Request) {
   try {
-    const { email, secret } = await request.json();
+    const { action } = await request.json()
 
-    // Simple protection
-    if (secret !== process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (action === 'create_bucket') {
+      const bucketName = 'project-files'
+      
+      // Check if bucket exists
+      const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets()
+      if (listError) throw listError
+
+      const exists = buckets.find(b => b.name === bucketName)
+      
+      if (!exists) {
+        // Create bucket
+        const { data, error } = await supabaseAdmin.storage.createBucket(bucketName, {
+          public: true, // Assuming files should be publicly accessible via URL, or handle with signed URLs
+          fileSizeLimit: 10485760, // 10MB
+        })
+        if (error) throw error
+        return NextResponse.json({ success: true, message: `Bucket '${bucketName}' created.` })
+      } else {
+        return NextResponse.json({ success: true, message: `Bucket '${bucketName}' already exists.` })
+      }
     }
 
-    if (!supabaseAdmin) {
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
-    }
-
-    // 1. Get user ID from auth.users (we can't query auth.users directly easily via API, 
-    // but we can search for the profile if it exists, or list users)
-    // Actually supabaseAdmin.auth.admin.listUsers() works.
-    
-    const { data: { users }, error: userError } = await supabaseAdmin.auth.admin.listUsers();
-    
-    if (userError) throw userError;
-
-    const user = users.find(u => u.email === email);
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // 2. Upsert profile
-    const { error: upsertError } = await supabaseAdmin
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        email: user.email,
-        role: 'admin'
-      });
-
-    if (upsertError) throw upsertError;
-
-    return NextResponse.json({ success: true, message: `User ${email} is now an Admin` });
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Setup Error:", error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

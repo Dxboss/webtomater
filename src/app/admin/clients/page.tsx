@@ -35,22 +35,38 @@
    }, [])
  
    const fetchData = async () => {
-     // Fetch clients from profiles table
-     const { data: profiles } = await supabase
-       .from("profiles")
-       .select("id,email,full_name,role,created_at")
-       .eq("role", "client")
-       .order("created_at", { ascending: false })
- 
-     if (profiles) setClients(profiles as ClientProfile[])
- 
-     const { data: projectsData } = await supabase
-       .from("projects")
-       .select("id,title,client_email")
-       .order("created_at", { ascending: false })
- 
-     if (projectsData) setProjects(projectsData as SimpleProject[])
-     setLoading(false)
+     try {
+       // Fetch from our new smart API that auto-syncs auth users
+       const response = await fetch('/api/admin/clients')
+
+       if (!response.ok) {
+         // Fallback to direct query if API fails (though API is better)
+         console.warn("API fetch failed, falling back to direct Supabase query")
+         const { data, error } = await supabase
+           .from("profiles")
+           .select("id,email,full_name,role,created_at")
+           .eq("role", "client")
+           .order("created_at", { ascending: false })
+
+         if (error) throw error
+         if (data) setClients(data as ClientProfile[])
+       } else {
+         const data = await response.json()
+         if (data.clients) setClients(data.clients)
+       }
+
+       const { data: projectsData, error: projectsError } = await supabase
+         .from("projects")
+         .select("id,title,client_email")
+         .order("created_at", { ascending: false })
+
+       if (projectsError) throw projectsError
+       if (projectsData) setProjects(projectsData as SimpleProject[])
+     } catch (error) {
+       console.error("Error fetching data:", error)
+     } finally {
+       setLoading(false)
+     }
    }
  
    const filtered = clients.filter((c) =>
